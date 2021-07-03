@@ -116,9 +116,9 @@ def model_predict(img, model):
   
     return z
 
-MODEL_PATH = 'model.h5'
+#MODEL_PATH = 'model.h5'
 # Load your trained model
-model = load_model(MODEL_PATH,custom_objects={'dice_coeff':dice_coeff})
+#model = load_model(MODEL_PATH,custom_objects={'dice_coeff':dice_coeff})
 
 def allowed_file(filename):
     return '.' in filename and \
