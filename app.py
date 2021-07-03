@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import numpy as np
 import glob 
 
-
+  
 from keras.models import load_model
 from keras.preprocessing import image
 import cv2
@@ -13,8 +13,8 @@ import cv2
 
 from azure.common.credentials import ServicePrincipalCredentials
 from azureml.core.model import Model
-from tensorflow import keras   
-
+ 
+ 
 from azureml.core.authentication import ServicePrincipalAuthentication
 
 from azureml.core import Workspace,Datastore,Dataset
@@ -39,7 +39,7 @@ ws = Workspace(
 
 model = Model(ws, 'ocr_p8_voiture_v1')
 
-model.download(target_dir=os.getcwd(), exist_ok=True)
+#model.download(target_dir=os.getcwd(), exist_ok=True)
 
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 IMAGE_SIZE = (150, 150)
