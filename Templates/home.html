@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{url_for('static',filename='bootstrap.min.css')}}">
+  <title>Image </title>
+  <body class style="margin:10px;padding:10px">
+    <div class="page-header" id="banner">
+      <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+          <h3>Participez à la conception d'une voiture autonome</h3>
+          <p class="lead">Identifiant de l'image à segmenter</p>
+        </div>
+      </div>
+      <form action="" method='post'>
+        <input type='text' name='id_image'>
+        <input type='submit' value='Valider'>
+    </form>
+    </div>
+    <p style="margin-bottom:2cm;"></p>
+    <div class="row">
+        <div class="col-lg-4">
+          <div class="page-header">
+            <h3 id="tables">Result</h3>
+          </div>
+          <div class="bs-component">
+            <table class="table table-hover">
+                <tr class="table-active">
+                  <th scope="col">Image</th>
+                  <th scope="col">Mask</th>
+				   <th scope="col">Predict</th>
+                </tr>
+                <tr>
+                    <th scope="row"> <img width="256" height="256" src="{{imagesource}}" /> </th>
+                     <th scope="row"> <img width="256" height="256" src="{{masksource}}" /> </th>
+					  <th scope="row"> <img width="256" height="256" src="{{predict_masksource}}" /> </th>
+                  </tr>
+            </table> 
+        </div>
+      </div>
+  </body>
