@@ -59,4 +59,4 @@ jobs:
         with:
           app-name: 'P8-bachir'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_3efddb9065df4f93bfbbf90714ef5b2d }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_276023bb89ce4e58b653b7fc3b3e2131 }}
