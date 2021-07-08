@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - P8-bachir
+name: Build and deploy Python app to Azure Web App - App-P8
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
     - name: Set up Python version
       uses: actions/setup-python@v1
       with:
-        python-version: '3.6'
+        python-version: '3.8'
 
     - name: Create and start virtual environment
       run: |
@@ -57,6 +57,6 @@ jobs:
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'P8-bachir'
+          app-name: 'App-P8'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_6b8f931c51e6442d9d1b98280996da41 }}
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_57907f31a114497fae5ddb07fb12fca9 }}
