@@ -8,7 +8,8 @@ import numpy as np
 import glob 
 
   
-
+from keras.preprocessing import image
+import cv2
 
 
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
