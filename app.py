@@ -1,45 +1,16 @@
 import os
 from flask import Flask, request, redirect, url_for, send_from_directory, render_template
+import requests
+import json
 
 from werkzeug.utils import secure_filename
 import numpy as np
 import glob 
 
   
-from keras.models import load_model
 from keras.preprocessing import image
 import cv2
 
-
-from azure.common.credentials import ServicePrincipalCredentials
-from azureml.core.model import Model
- 
- 
-from azureml.core.authentication import ServicePrincipalAuthentication
-
-from azureml.core import Workspace,Datastore,Dataset
-
-# Retrieve the IDs and secret to use with ServicePrincipalCredentials
-tenant_id = "e6311692-39bf-4a2b-95d1-2636e4e409c7"
-client_id = "80b5eb4f-f73f-45ee-8e68-47de95d57340"
-client_secret = "DPG~sW85RX8Loh8L4-zc-RCH8GyJq-x5t3"
-
-
-svc_pr = ServicePrincipalAuthentication(
-    tenant_id=tenant_id,
-    service_principal_id=client_id,
-    service_principal_password=client_secret)
-
-ws = Workspace(
-    subscription_id="9c6e1d8a-238d-4ae2-8b6e-7cb9dbae6faf",
-    resource_group="OCR",
-    workspace_name="P8_OCR",
-    auth=svc_pr
-    )
-
-model = Model(ws, 'ocr_p8_voiture_v1')
-
-#model.download(target_dir=os.getcwd(), exist_ok=True)
 
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 IMAGE_SIZE = (150, 150)
@@ -104,13 +75,23 @@ def total_loss(y_true, y_pred):
     loss = binary_crossentropy(y_true, y_pred) + (3*dice_loss(y_true, y_pred))
     return loss
     
-def model_predict(img, model):
+def model_predict(img):
     
     # Preprocessing the image
-    img = image.img_to_array(img)/256
+    img = image.img_to_array(img)/255
     x = np.expand_dims(img, axis=0)
+    test = json.dumps({"data": x.tolist()})
+    test = bytes(test, encoding='utf8')
+
+    headers = {'Content-Type':'application/json'}
+    api_key = 'duSKvtbltK22bhiVmL3jlThs7bcbOWh9'
+    headers = {'Content-Type':'application/json',  'Authorization':('Bearer '+ api_key)} 
+
+    resp = requests.post('http://20.62.213.21:80/api/v1/service/ocr-p8-srv4966/score', test, headers=headers)
+
     #x = preprocess_input(x, mode='caffe')
-    z = model.predict(x)
+    data = json.loads(resp.content)
+    z = json.loads(data)['result']
     z = np.squeeze(z)
     z = z.reshape(256, 256, 8)
   
@@ -141,7 +122,7 @@ def upload_file():
         file_path = os.path.join(image_list[id_image])
         mask_file_path =os.path.join(mask_list[id_image])
         image_in = cv2.imread(os.path.join(image_list[id_image]))
-        z = model_predict(image_in, model)
+        z = model_predict(image_in)
         
         image_out = onehot_to_rgb(z, id2code)
         filename = "predict_mask"+request.form['id_image']+".png"
